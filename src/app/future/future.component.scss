@@ -1,0 +1,18 @@
+.forecast{
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  &-day{
+    display: grid;
+    grid-template-columns: repeat(5, 6rem);
+  }
+
+  .icon{
+    height: 2rem;
+    padding-left: 2rem;
+  }
+
+}

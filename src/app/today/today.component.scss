@@ -1,0 +1,27 @@
+.weather {
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  &-time,
+  &-location {
+    font-size: 2rem;
+  }
+
+  &-timeline {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 2rem;
+
+    h3 {
+      grid-column: 1 / -1;
+    }
+  }
+
+  h3 {
+    text-transform: capitalize;
+  }
+
+}

@@ -1,0 +1,26 @@
+<div *ngIf="weatherNow" class="weather">
+  <div class="weather-location">{{ location.name }}, {{ location.country }}</div>
+  <div class="weather-time">{{ currentTime | date:"HH:mm - EE MMM" }}</div>
+  <div class="weather-temp">
+    <span><img src="assets/icons/{{weatherNow.weather[0].icon}}.png" alt=""></span>
+    <h5>Current Temp: {{ weatherNow.main.temp | number: '1.0-0' }}&deg;F</h5>
+  </div>
+  <div class="weather__details">
+    <div class="weather__details-description">
+      <h5>Feels like: {{ weatherNow.main.feels_like | number: '1.0-0' }}&deg;F</h5>
+      <h5>Current Conditions: {{ weatherNow.weather[0].main }}</h5>
+      <h5>Sky Conditions: {{ weatherNow.weather[0].description }}</h5>
+      <h5>Humidity: {{ weatherNow.main.humidity }}%</h5>
+      <h5>High Temp: {{ weatherNow.main.temp_max | number: '1.0-0' }}&deg;F</h5>
+      <h5>Low Temp: {{ weatherNow.main.temp_min | number: '1.0-0' }}&deg;F</h5>
+    </div>
+  </div>
+  <div class="weather-timeline">
+    <h3>3-hour Forecast</h3>
+    <div *ngFor="let item of timeline">
+      <div>{{ item.time | date:'HH:mm' }}</div>
+      <div>Temp: {{ item.temp | number: '1.0-0' }}&deg;F</div>
+      <div>Conditions: <br />{{ item.conditions }}</div>
+    </div>
+  </div>
+</div>
