@@ -11,14 +11,16 @@ export class TodayComponent {
   weatherNow:any;
   location:any;
   currentTime = new Date();
+  zipcode: string = '';
 
   constructor(private forecastService: ForecastService){}
 
   ngOnInit(): void {
-    this.forecastService.getWeatherForcast().subscribe(data=>{
-      this.getTodayForecast(data)
-    })
-
+    if (this.zipcode.trim() === '') {
+      this.forecastService.getWeatherForcast().subscribe(data => {
+        this.getTodayForecast(data);
+      });
+    }
   }
 
   dateRange(){
@@ -30,13 +32,12 @@ export class TodayComponent {
     return { start, to }
   }
 
-  getTodayForecast(today:any){
+  getTodayForecast(today: any) {
+    this.timeline = [];
     this.location = today.city;
-    console.log(this.location)
+    this.weatherNow = null;
 
-    for (const forecast of today.list.slice(0,8)){
-      // console.log(this.timeline);
-
+    for (const forecast of today.list.slice(0, 8)) {
       this.timeline.push({
         time: forecast.dt_txt,
         temp: forecast.main.temp,
@@ -45,11 +46,19 @@ export class TodayComponent {
 
       const apiDate = new Date(forecast.dt_txt).getTime();
 
-      if(this.dateRange().start.getTime() <= apiDate && this.dateRange().to.getTime() >= apiDate){
+      if (this.dateRange().start.getTime() <= apiDate && this.dateRange().to.getTime() >= apiDate) {
         this.weatherNow = forecast;
-        // console.log(this.weatherNow);
-
       }
+    }
+  }
+
+  onSearch() {
+    if (this.zipcode.trim() !== '') {
+      this.forecastService.getWeatherByZip(this.zipcode).subscribe(data => {
+        this.getTodayForecast(data);
+      });
+    } else {
+      // Handle the case when the zipcode is empty
     }
   }
 }

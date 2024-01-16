@@ -8,6 +8,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TodayComponent } from './today/today.component';
 import { FutureComponent } from './future/future.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FutureComponent } from './future/future.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
