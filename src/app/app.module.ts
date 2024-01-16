@@ -15,7 +15,7 @@ import { FutureComponent } from './future/future.component';
     HeaderComponent,
     HomepageComponent,
     TodayComponent,
-    FutureComponent
+    FutureComponent,
     ],
   imports: [
     BrowserModule,

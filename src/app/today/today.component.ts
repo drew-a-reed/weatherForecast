@@ -32,9 +32,10 @@ export class TodayComponent {
 
   getTodayForecast(today:any){
     this.location = today.city;
+    console.log(this.location)
 
     for (const forecast of today.list.slice(0,8)){
-      console.log(this.timeline);
+      // console.log(this.timeline);
 
       this.timeline.push({
         time: forecast.dt_txt,
@@ -46,7 +47,7 @@ export class TodayComponent {
 
       if(this.dateRange().start.getTime() <= apiDate && this.dateRange().to.getTime() >= apiDate){
         this.weatherNow = forecast;
-        console.log(this.weatherNow);
+        // console.log(this.weatherNow);
 
       }
     }

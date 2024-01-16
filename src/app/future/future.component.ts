@@ -25,6 +25,5 @@ export class FutureComponent implements OnInit {
     for (let i = 0; i < data.length; i += 8) {
       this.weatherData.push(data[i]);
     }
-    console.log(this.weatherData);
   }
 }
