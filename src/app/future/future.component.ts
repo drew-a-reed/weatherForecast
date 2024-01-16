@@ -5,25 +5,39 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-future',
   templateUrl: './future.component.html',
-  styleUrls: ['./future.component.scss']
+  styleUrls: ['./future.component.scss'],
 })
 export class FutureComponent implements OnInit {
   weatherData: any = [];
+  zipcode: string = '';
 
   constructor(private forecastService: ForecastService) {}
 
   ngOnInit(): void {
-    this.forecastService.getWeatherForcast().pipe(
-      map((data: any) => data.list)
-    )
-    .subscribe((filteredData) => {
-      this.futureForecase(filteredData);
-    });
+    if (this.zipcode.trim() === '') {
+      this.forecastService.getWeatherForcast().subscribe((filteredData) => {
+        this.futureForecast(filteredData);
+      });
+    }
   }
 
-  futureForecase(data: any) {
-    for (let i = 0; i < data.length; i += 8) {
-      this.weatherData.push(data[i]);
+  futureForecast(data: any) {
+    this.weatherData = [];
+    console.log(data.city.name);
+
+    const forecastList = data.list || data;
+    for (let i = 0; i < forecastList.length; i += 8) {
+      this.weatherData.push(forecastList[i]);
+    }
+  }
+
+  onSearch() {
+    if (this.zipcode.trim() !== '') {
+      this.forecastService.getWeatherByZip(this.zipcode).subscribe((data) => {
+        this.futureForecast(data);
+      });
+    } else {
+      // Handle the case when the zipcode is empty
     }
   }
 }
