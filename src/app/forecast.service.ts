@@ -54,4 +54,24 @@ export class ForecastService {
       })
     );
   }
+
+  getWeatherMap(layer: string, z: string, x: string, y: string): Observable<any> {
+    return new Observable((observer) => {
+      observer.next();
+    }).pipe(
+      switchMap(() => {
+        const params = new HttpParams()
+          .set('layer', layer)
+          .set('z', z)
+          .set('x', x)
+          .set('y', y)
+          .set('appid', 'd3aae32fea1193504888da921fe7538b');
+
+        return this.http.get(
+          `https://tile.openweathermap.org/map/${layer}/${z}/${x}/${y}.png`,
+          { params: params, responseType: 'blob' }
+        );
+      })
+    );
+  }
 }

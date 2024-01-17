@@ -61,8 +61,6 @@ export class TodayComponent {
 
   futureForecast(data: any) {
     this.weatherData = [];
-
-
     const forecastList = data.list || data;
     for (let i = 0; i < forecastList.length; i += 8) {
       this.weatherData.push(forecastList[i]);
@@ -85,4 +83,5 @@ export class TodayComponent {
   const minutes = date.getMinutes().toString().padStart(2, '0');
   return `${hours}:${minutes}`;
   }
+
 }
