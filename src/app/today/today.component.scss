@@ -97,8 +97,9 @@
     margin-top: 1.5rem;
     width: 100%;
     display: flex;
-    overflow-x: auto;
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
 
     &__time {
       padding: 5px 10px;
@@ -135,7 +136,8 @@
     margin-top: 1.5rem;
     width: 100%;
     display: flex;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
 
     padding-left: 0;
