@@ -1,39 +1,173 @@
 .weather {
-
   display: flex;
   align-items: center;
   flex-direction: column;
   text-align: center;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 50%;
+  min-width: 20rem;
 
-  &-time,
-  &-location {
-    font-size: 2rem;
+  &__location {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    white-space: nowrap;
+
+    &-city {
+      font-size: clamp(1.25rem, 1.75rem, 6vw);
+      font-weight: bold;
+      justify-self: self-start;
+    }
+
+    &-time {
+      justify-self: self-end;
+      align-self: self-end;
+      font-size: clamp(1.2rem, 1.5rem, 6vw);
+    }
+
+    @media only screen and (max-width: 330px) {
+      grid-template-columns: 1fr;
+
+      &-city,
+      &-time {
+        justify-self: self-start;
+      }
+    }
   }
 
-  &-timeline {
+  &__current {
+    margin-top: 1.5rem;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-gap: 2rem;
+    grid-template-areas:
+      "temp icon"
+      "sky  sky";
 
-    h3 {
-      grid-column: 1 / -1;
+    &-temp {
+      font-size: clamp(3.5rem, 6rem, 6vw);
+      white-space: nowrap;
+      grid-area: temp;
+    }
+
+    &-sky {
+      text-transform: capitalize;
+      font-size: clamp(1.25rem, 3.5rem, 4vw);
+      grid-area: sky;
+    }
+
+    &-icon {
+      grid-area: icon;
+    }
+
+    @media only screen and (max-width: 300px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__details {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+
+    .detail {
+      border: 1px solid black;
+      border-radius: 10%;
+      display: flex;
+      flex-direction: column;
+      padding: 5px 10px;
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 10rem;
+      background-color: #002555;
+      border-radius: 15%;
+
+      span {
+        font-size: clamp(2rem, 4rem, 6vw);
+        text-align: flex-start;
+      }
+    }
+  }
+
+  &__timeline {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+
+    &__time {
+      padding: 5px 10px;
+      background-color: #002555;
+      border-radius: 15%;
+      display: grid;
+      grid-template-areas:
+        "time icon"
+        "temp icon"
+        "conditions conditions";
+
+      &-time {
+        align-self: self-start;
+        grid-area: time;
+      }
+      &-temp {
+        font-size: clamp(1.25rem, 1.75rem, 6vw);
+        grid-area: temp;
+      }
+      &-icon {
+        grid-area: icon;
+
+        img {
+          max-width: 50px;
+        }
+      }
+      &-conditions {
+        grid-area: conditions;
+      }
+    }
+  }
+
+  &__future {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+
+    padding-left: 0;
+
+    &__day {
+      padding: 5px 10px;
+      display: grid;
+      min-width: 10rem;
+      justify-content: center;
+      background-color: #002555;
+      border-radius: 15%;
     }
   }
 
   &__search {
-    margin: 3rem 0;
+    margin-top: 1.5rem;
+    font-size: clamp(1.2rem, 1.5rem, 6vw);
 
     input {
-      margin: 0 1rem;
+      margin: 1rem 1rem;
+      background-color: #ffffff5d;
+      color: #72b0ff;
     }
 
     button {
       padding: 0 0.5rem;
+      background-color: #000;
+      color: #72b0ff;
     }
   }
 
   h3 {
-    text-transform: capitalize;
+    margin-top: 1.5rem;
   }
-
 }

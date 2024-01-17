@@ -7,7 +7,6 @@ import { HeaderComponent } from './header/header.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TodayComponent } from './today/today.component';
-import { FutureComponent } from './future/future.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -16,7 +15,6 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     HomepageComponent,
     TodayComponent,
-    FutureComponent,
     ],
   imports: [
     BrowserModule,

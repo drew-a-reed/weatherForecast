@@ -2,14 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { WeatherData } from './weather-data';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ForecastService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getWeatherForcast(): Observable<any> {
     return new Observable((observer) => {
@@ -30,7 +28,10 @@ export class ForecastService {
           .set('appid', 'd3aae32fea1193504888da921fe7538b');
       }),
       switchMap((values) => {
-        return this.http.get('https://api.openweathermap.org/data/2.5/forecast', { params: values });
+        return this.http.get(
+          'https://api.openweathermap.org/data/2.5/forecast',
+          { params: values }
+        );
       })
     );
   }
@@ -46,23 +47,10 @@ export class ForecastService {
           .set('units', 'imperial');
       }),
       switchMap((values) => {
-        return this.http.get('https://api.openweathermap.org/data/2.5/forecast', { params: values });
-      })
-    );
-  }
-
-  getForecastByZip(zip: any): Observable<any> {
-    return new Observable((observer) => {
-      observer.next(zip);
-    }).pipe(
-      map((zipCode: any) => {
-        return new HttpParams()
-          .set('zip', zipCode + ',us')
-          .set('appid', 'd3aae32fea1193504888da921fe7538b')
-          .set('units', 'imperial');
-      }),
-      switchMap((values) => {
-        return this.http.get('https://api.openweathermap.org/data/2.5/weather', { params: values });
+        return this.http.get(
+          'https://api.openweathermap.org/data/2.5/forecast',
+          { params: values }
+        );
       })
     );
   }
