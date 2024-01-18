@@ -1,9 +1,14 @@
 .header {
-  background-color: #000;
-  justify-content: center;
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
   min-height: 5rem;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 0.5rem;
 
+  h1 {
+    text-align: center;
+  }
+
+  a {
+    color: #72B0FF;
+  }
 }
