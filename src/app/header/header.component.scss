@@ -4,11 +4,14 @@
   margin: 0 auto;
   margin-top: 0.5rem;
 
+  @media only screen and (max-width: 870px) {
+    text-align: center;
+  }
   h1 {
     text-align: center;
   }
 
   a {
-    color: #72B0FF;
+    color: #c7c4c5;
   }
 }
