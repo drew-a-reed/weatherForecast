@@ -20,11 +20,6 @@ export class HeaderComponent implements OnInit {
       const linkText = this.referringUrl === 'http://localhost:55875/'
         ? 'Return to my profile'
         : linkElement.textContent || linkElement.innerText;
-
-      console.log('Link Text:', linkText);
-
-      // Your logic for setting link text based on the referring URL
-      // For example, you can update the link element text content
       linkElement.textContent = linkText;
     }
   }
