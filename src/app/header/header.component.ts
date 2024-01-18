@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
     const linkElement = document.querySelector(".header a") as HTMLElement;
 
     if (linkElement) {
-      const linkText = this.referringUrl === 'http://localhost:55875/'
+      const linkText = this.referringUrl === 'https://www.drewareed.com/'
         ? 'Return to my profile'
         : linkElement.textContent || linkElement.innerText;
       linkElement.textContent = linkText;
