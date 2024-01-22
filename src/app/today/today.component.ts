@@ -19,10 +19,11 @@ export class TodayComponent {
   @ViewChild('gmapContainer', { static: false })
   gmap!: ElementRef;
   map!: google.maps.Map;
-  lat = 35.95517;
-  lng = -96.00882;
+  lat = 0;
+  lng = 0;
   coordinates = new google.maps.LatLng(this.lat, this.lng);
-  mapOptions: google.maps.MapOptions = { center: this.coordinates, zoom: 10 };
+  mapOptions: google.maps.MapOptions = { center: this.coordinates, zoom: 9 };
+  mapImageURL: string | null = null;
 
   constructor(private forecastService: ForecastService) {}
 
@@ -31,25 +32,33 @@ export class TodayComponent {
       this.forecastService.getWeatherForcast().subscribe((data) => {
         this.getTodayForecast(data.forecast);
         this.futureForecast(data.forecast);
-        this.forecastService.getWeatherMap('precipitation_new', '5', '31', '31').subscribe((mapImage) => {
-        });
 
         this.lat = data.coords.lat;
         this.lng = data.coords.lon;
+
+        this.forecastService
+          .getWeatherMap('precipitation_new', '9', '0', '0')
+          .subscribe(
+            (mapImageBlob) =>
+              (console.log("HERE: ", mapImageBlob),
+               this.mapImageURL = URL.createObjectURL(mapImageBlob),
+               console.log("NOW HERE: ", this.mapImageURL)
+               ),
+            (error) => console.error('Error fetching map image:', error)
+          );
       });
     }
+
     this.forecastService.getLatLong().subscribe(
       (coords) => {
         this.lat = coords.lat;
         this.lng = coords.lon;
-
         const newCoordinates = new google.maps.LatLng(coords.lat, coords.lon);
         this.map.setCenter(newCoordinates);
       },
-      (error) => {
-        console.error('Error getting location:', error);
-      }
+      (error) => console.error('Error getting location:', error)
     );
+
   }
 
   ngAfterViewInit() {
@@ -101,13 +110,26 @@ export class TodayComponent {
     if (this.zipcode.trim() !== '') {
       this.forecastService.getWeatherByZip(this.zipcode).subscribe((data) => {
         this.getTodayForecast(data);
-      });
-      this.forecastService.getWeatherByZip(this.zipcode).subscribe((data) => {
         this.futureForecast(data);
+
+        this.forecastService.getLocation(this.zipcode).subscribe(
+          (locationData) => {
+            const location = locationData.results[0]?.geometry?.location;
+            if (location) {
+              this.lat = location.lat;
+              this.lng = location.lng;
+            }
+
+            this.mapInitializer();
+          },
+          (error) => console.error('Error getting location:', error)
+        );
       });
     } else {
+      // Handle case where zip code is empty
     }
   }
+
 
   getFormattedTime(timestamp: number): string {
     const date = new Date(timestamp * 1000);
@@ -117,7 +139,11 @@ export class TodayComponent {
   }
 
   mapInitializer() {
-    this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
+    if (this.map) {
+      const newCoordinates = new google.maps.LatLng(this.lat, this.lng);
+      this.map.setCenter(newCoordinates);
+    } else {
+      this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
+    }
   }
-
 }

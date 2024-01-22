@@ -97,4 +97,20 @@ export class ForecastService {
       })
     );
   }
+
+  getLocation(zipCode: string): Observable<any> {
+    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=AIzaSyB9NK9VBqWf6OwLrHk0kv5ER0YJZPJ0TJM`;
+
+    return this.http.get(geocodeUrl).pipe(
+      map((locationData) => {
+        console.log('Location Data:', locationData);
+        return locationData;
+      }),
+      catchError((error) => {
+        console.error('Error getting location:', error);
+        throw error;
+      })
+    );
+  }
+
 }
