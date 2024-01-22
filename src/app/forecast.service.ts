@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,32 +9,55 @@ import { map, switchMap } from 'rxjs/operators';
 export class ForecastService {
   constructor(private http: HttpClient) {}
 
-  getWeatherForcast(): Observable<any> {
+  getLatLong(): Observable<{ lat: number, lon: number }> {
     return new Observable((observer) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          observer.next(position);
+          observer.next(position.coords);
         },
         (error) => {
-          observer.next(error);
+          observer.error(error);
         }
       );
     }).pipe(
-      map((value: any) => {
-        return new HttpParams()
-          .set('lon', value.coords.longitude)
-          .set('lat', value.coords.latitude)
+      map((coords: any) => {
+        return { lat: coords.latitude, lon: coords.longitude };
+      }),
+      catchError((error) => {
+        console.error('Error getting location:', error);
+        throw error;
+      })
+    );
+  }
+
+  getWeatherForcast(): Observable<{ coords: { lat: number, lon: number }, forecast: any }> {
+    return new Observable((observer) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          observer.next({ coords: position.coords });
+        },
+        (error) => {
+          observer.next({ error });
+        }
+      );
+    }).pipe(
+      switchMap((values: any) => {
+        const params = new HttpParams()
+          .set('lon', values.coords.longitude)
+          .set('lat', values.coords.latitude)
           .set('units', 'imperial')
           .set('appid', 'd3aae32fea1193504888da921fe7538b');
-      }),
-      switchMap((values) => {
+
         return this.http.get(
           'https://api.openweathermap.org/data/2.5/forecast',
-          { params: values }
+          { params: params }
+        ).pipe(
+          map((forecast) => ({ coords: values.coords, forecast }))
         );
       })
     );
   }
+
 
   getWeatherByZip(zip: any): Observable<any> {
     return new Observable((observer) => {
