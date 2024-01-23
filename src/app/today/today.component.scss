@@ -174,17 +174,10 @@
   }
 }
 
-#map {
-  height: 450px;
-  width: 60%;
+.map-container {
   margin: 2rem auto;
-}
-#map2 {
-  height: 450px;
-  position: absolute;
 
-  img {
-    height: 450px;
-    width: 100%;
-  }
+  #map{
+    max-width: 50%;
+}
 }

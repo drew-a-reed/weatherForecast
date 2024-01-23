@@ -1,7 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ForecastService } from '../forecast.service';
-import {} from 'googlemaps';
-
+import * as L from 'leaflet';
 @Component({
   selector: 'app-today',
   templateUrl: './today.component.html',
@@ -16,13 +15,8 @@ export class TodayComponent {
   weatherData: any = [];
   sunrise: any;
   sunset: any;
-  @ViewChild('gmapContainer', { static: false })
-  gmap!: ElementRef;
-  map!: google.maps.Map;
   lat = 0;
   lng = 0;
-  coordinates = new google.maps.LatLng(this.lat, this.lng);
-  mapOptions: google.maps.MapOptions = { center: this.coordinates, zoom: 9 };
   mapImageURL: string | null = null;
 
   constructor(private forecastService: ForecastService) {}
@@ -37,7 +31,7 @@ export class TodayComponent {
         this.lng = data.coords.lon;
 
         this.forecastService
-          .getWeatherMap('precipitation_new', '9', '0', '0')
+          .getWeatherMap('clouds_new', '0', '0', '0')
           .subscribe(
             (mapImageBlob) =>
               (console.log("HERE: ", mapImageBlob),
@@ -54,7 +48,7 @@ export class TodayComponent {
         this.lat = coords.lat;
         this.lng = coords.lon;
         const newCoordinates = new google.maps.LatLng(coords.lat, coords.lon);
-        this.map.setCenter(newCoordinates);
+        // this.map.setCenter(newCoordinates);
       },
       (error) => console.error('Error getting location:', error)
     );
@@ -62,7 +56,7 @@ export class TodayComponent {
   }
 
   ngAfterViewInit() {
-    this.mapInitializer();
+// this.initMap();
   }
 
   dateRange() {
@@ -119,8 +113,6 @@ export class TodayComponent {
               this.lat = location.lat;
               this.lng = location.lng;
             }
-
-            this.mapInitializer();
           },
           (error) => console.error('Error getting location:', error)
         );
@@ -130,7 +122,6 @@ export class TodayComponent {
     }
   }
 
-
   getFormattedTime(timestamp: number): string {
     const date = new Date(timestamp * 1000);
     const hours = date.getHours().toString().padStart(2, '0');
@@ -138,12 +129,9 @@ export class TodayComponent {
     return `${hours}:${minutes}`;
   }
 
-  mapInitializer() {
-    if (this.map) {
-      const newCoordinates = new google.maps.LatLng(this.lat, this.lng);
-      this.map.setCenter(newCoordinates);
-    } else {
-      this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
-    }
-  }
+  // initMap(){
+  //   const map = L.map('map', {scrollWheelZoom:false}).setView([this.lat, this.lng], 8.5);
+
+  //   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+  // }
 }
