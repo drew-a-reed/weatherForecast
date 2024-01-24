@@ -5,7 +5,7 @@
   text-align: center;
   margin: 0 auto;
   padding: 0 1rem;
-  width: 50%;
+  max-width: 700px;
   min-width: 20rem;
 
   &__location {
@@ -82,7 +82,6 @@
       padding: 5px 10px;
       align-items: flex-start;
       justify-content: center;
-      max-width: 10rem;
       background-color: #242122;
       border-radius: 15%;
 
@@ -123,7 +122,6 @@
         grid-area: icon;
 
         img {
-          max-width: 50px;
         }
       }
       &-conditions {
@@ -174,10 +172,3 @@
   }
 }
 
-.map-container {
-  margin: 2rem auto;
-
-  #map{
-    max-width: 50%;
-}
-}
