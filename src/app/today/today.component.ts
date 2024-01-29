@@ -1,6 +1,7 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ForecastService } from '../forecast.service';
 import * as L from 'leaflet';
+
 @Component({
   selector: 'app-today',
   templateUrl: './today.component.html',
@@ -17,7 +18,6 @@ export class TodayComponent {
   sunset: any;
   lat = 0;
   lng = 0;
-  mapImageURL: string | null = null;
 
   constructor(private forecastService: ForecastService) {}
 
@@ -30,16 +30,6 @@ export class TodayComponent {
         this.lat = data.coords.lat;
         this.lng = data.coords.lon;
 
-        this.forecastService
-          .getWeatherMap('clouds_new', '0', '0', '0')
-          .subscribe(
-            (mapImageBlob) =>
-              (console.log("HERE: ", mapImageBlob),
-               this.mapImageURL = URL.createObjectURL(mapImageBlob),
-               console.log("NOW HERE: ", this.mapImageURL)
-               ),
-            (error) => console.error('Error fetching map image:', error)
-          );
       });
     }
 
@@ -47,8 +37,6 @@ export class TodayComponent {
       (coords) => {
         this.lat = coords.lat;
         this.lng = coords.lon;
-        const newCoordinates = new google.maps.LatLng(coords.lat, coords.lon);
-        // this.map.setCenter(newCoordinates);
       },
       (error) => console.error('Error getting location:', error)
     );
@@ -56,7 +44,6 @@ export class TodayComponent {
   }
 
   ngAfterViewInit() {
-// this.initMap();
   }
 
   dateRange() {
@@ -129,9 +116,4 @@ export class TodayComponent {
     return `${hours}:${minutes}`;
   }
 
-  // initMap(){
-  //   const map = L.map('map', {scrollWheelZoom:false}).setView([this.lat, this.lng], 8.5);
-
-  //   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
-  // }
 }

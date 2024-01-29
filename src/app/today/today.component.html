@@ -1,9 +1,9 @@
+<div class="weather__search">
+  <label for="zipcode">Search By Zip Code:</label>
+  <input type='text' [(ngModel)]='zipcode' ng-pattern='/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/' placeholder='74045' name="zipcode" />
+  <button (click)="onSearch()">Search</button>
+</div>
 <div *ngIf="weatherNow" class="weather">
-  <div class="weather__search">
-    <label for="zipcode">Search By Zip Code:</label>
-    <input type='text' [(ngModel)]='zipcode' ng-pattern='/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/' placeholder='74045' name="zipcode" />
-    <button (click)="onSearch()">Search</button>
-  </div>
   <div class="weather__location">
     <div class="weather__location-city">
       {{ location.name }}, {{ location.country }}
